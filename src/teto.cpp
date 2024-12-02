@@ -15,7 +15,7 @@ int main(int argc, char* argv[]) {
     }
     std::ifstream input(file);
     if(!input.is_open()) {
-        std::cerr << "fuck you (16)" << std::endl;
+        std::cerr << "fuck you (18)" << std::endl;
         return 1;
     }
     json before = json::parse(input);
@@ -27,6 +27,7 @@ int main(int argc, char* argv[]) {
     after["users"] = json::array();
     after["replay"] = json::object();
     after["version"] = 1;
+    after["ts"] = before["ts"];
     
     //replay
     after["replay"]["leaderboard"] = json::array();
@@ -194,6 +195,15 @@ int main(int argc, char* argv[]) {
                 }
                 after["replay"]["rounds"].back().back()["replay"]["events"].push_back(k);
             }
+
+            //results
+            after["replay"]["rounds"].back().back()["replay"]["events"].back()["data"].erase("export");
+            after["replay"]["rounds"].back().back()["replay"]["events"].back()["data"].erase("reason");
+            after["replay"]["rounds"].back().back()["replay"].emplace
+            ("results",i["replays"][j]["events"].back()["data"]["export"]);
+            after["replay"]["rounds"].back().back()["replay"]["results"].erase("reason");
+            after["replay"]["rounds"].back().back()["replay"]["results"].emplace
+            ("gameoverreason",i["replays"][j]["events"].back()["data"]["reason"]);
         }
     }
 
@@ -222,7 +232,7 @@ int main(int argc, char* argv[]) {
 
     std::ofstream out("out.ttrm",std::ios::trunc);
     if(!out.is_open()) {
-        std::cerr << "fuck you (222)" << std::endl;
+        std::cerr << "fuck you (225)" << std::endl;
         return 1;
     }
     out << after;
