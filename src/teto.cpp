@@ -15,7 +15,7 @@ int main(int argc, char* argv[]) {
     }
     std::ifstream input(file);
     if(!input.is_open()) {
-        std::cerr << "fuck you (18)" << std::endl;
+        std::cerr << "error: failed to open file \"" << file << "\"(line 18)" << std::endl;
         return 1;
     }
     json before = json::parse(input);
@@ -125,14 +125,14 @@ int main(int argc, char* argv[]) {
             });
 
             //options
-            std::string fuck[] = {"ghostskin","noscope","objective","physical","slot_counter4"};
+            std::string useless[] = {"ghostskin","noscope","objective","physical","slot_counter4"};
             std::string sc[] = {"display_attack","display_kills",
             "display_lines","display_pieces","display_placement","display_stopwatch",
             "display_vs"};
             int scounter = 1;
             for(const auto& k : i["replays"][j]["events"][0]["data"]["options"].items()) {
                 bool success = 1;
-                for(const auto& l : fuck) {
+                for(const auto& l : useless) {
                     if(k.key() == l) {
                         success = 0;
                         break;
@@ -232,7 +232,7 @@ int main(int argc, char* argv[]) {
 
     std::ofstream out("out.ttrm",std::ios::trunc);
     if(!out.is_open()) {
-        std::cerr << "fuck you (225)" << std::endl;
+        std::cerr << "error: failed to open file \"out.ttrm\" (line 235)" << std::endl;
         return 1;
     }
     out << after;
